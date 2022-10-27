@@ -23,9 +23,18 @@ def print_header
 end
 
 def print(students)
+  puts "See full cohort below"
   students.each_with_index do |student, index|
     # print a number before the name and cohort of each student
     puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+  end
+end
+
+def print_with_c(students)
+  puts "See cohort with names beginning with C"
+  students.each_with_index do |student, index|
+    # print only if name begins with C
+    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name][0] == "C"
   end
 end
 
@@ -37,4 +46,5 @@ end
 students = input_students
 print_header
 print(students)
+print_with_c(students)
 print_footer(students)
