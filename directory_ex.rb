@@ -23,29 +23,40 @@ def print_header
 end
 
 def print(students)
-  puts "See full cohort below"
+  # print a number before the name and cohort of each student
+  puts "See full cohort below with number"
   students.each_with_index do |student, index|
-    # print a number before the name and cohort of each student
     puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
   end
 end
 
+def print_while(students)
+  # print a number before the name and cohort of each student using while
+  index = 0
+  puts "See full cohort below using while"
+  while index < students.count do 
+    puts "#{index + 1}. #{students[index][:name]} (#{students[index][:cohort]})"
+    index += 1
+  end
+end
+
+
 def print_with_c(students)
+  # print only if name begins with C
   puts "See cohort with names beginning with C"
-  students.each_with_index do |student, index|
-    # print only if name begins with C
+  students.each_with_index do |student|
     if student[:name][0] == "C"
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)" 
+      puts "#{student[:name]} (#{student[:cohort]} cohort)" 
     end
   end
 end
 
 def print_less_than_twelve(students)
+  # print only if name is less than 12 chars
   puts "See cohort with names less than 12 characters"
-  students.each_with_index do |student, index|
-    # print only if name is less than 12 chars
+  students.each_with_index do |student|
     if student[:name].delete(' ').length < 12
-      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+      puts "#{student[:name]} (#{student[:cohort]} cohort)"
     end
   end
 end
@@ -58,6 +69,7 @@ end
 students = input_students
 print_header
 print(students)
+print_while(students)
 print_with_c(students)
-print_footer(students)
 print_less_than_twelve(students)
+print_footer(students)
