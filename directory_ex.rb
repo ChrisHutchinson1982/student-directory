@@ -34,7 +34,19 @@ def print_with_c(students)
   puts "See cohort with names beginning with C"
   students.each_with_index do |student, index|
     # print only if name begins with C
-    puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)" if student[:name][0] == "C"
+    if student[:name][0] == "C"
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)" 
+    end
+  end
+end
+
+def print_less_than_twelve(students)
+  puts "See cohort with names less than 12 characters"
+  students.each_with_index do |student, index|
+    # print only if name is less than 12 chars
+    if student[:name].delete(' ').length < 12
+      puts "#{index + 1}. #{student[:name]} (#{student[:cohort]} cohort)"
+    end
   end
 end
 
@@ -48,3 +60,4 @@ print_header
 print(students)
 print_with_c(students)
 print_footer(students)
+print_less_than_twelve(students)
