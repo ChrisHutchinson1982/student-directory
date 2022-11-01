@@ -12,6 +12,10 @@ def question(str)
   puts "Enter #{str}"
 end
 
+def student_plural(students)
+  students.count > 1 ? "students" : "student"
+end
+
 def input_students
   puts "Please enter the details of the students"
   puts "-------------"
@@ -45,7 +49,7 @@ def input_students
         hobby: default_value(hobby), 
         country: default_value(country)
       }
-      puts "Now we have #{students.count} students, please enter details for the next student"
+      puts "Now we have #{students.count} #{student_plural(students)}, please enter details for the next student"
     else
       puts "Please re-enter the correct details"
     end
@@ -111,7 +115,7 @@ def print_less_than_twelve(students)
 end
 
 def print_footer(students)
-  my_puts("Overall, we have #{students.count} great students")
+  my_puts("Overall, we have #{students.count} great #{student_plural(students)}")
 end
 
 # nothing happens until we call the methods
