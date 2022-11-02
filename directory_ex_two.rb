@@ -20,6 +20,10 @@ def my_gets
   STDIN.gets.chomp
 end
 
+def feedback_message
+  puts "-------------\nThis has been completed sucessfully.\nPlease select next action:"
+end
+
 def process(selection)
   case selection
     when "1" ; input_students
@@ -43,6 +47,7 @@ def input_students
     # gets another name from the user
     @name = my_gets
   end
+  feedback_message
 end
 
 def load_student(cohort)
@@ -53,6 +58,7 @@ def show_students
   print_header
   print_students_list
   print_footer
+  feedback_message
 end
 
 def print_header
@@ -77,6 +83,7 @@ def save_students
     file.puts csv_line
   end
   file.close
+  feedback_message
 end
 
 def load_students(filename = "students.csv")
@@ -86,6 +93,7 @@ def load_students(filename = "students.csv")
     load_student(cohort)
   end
   file.close
+  feedback_message
 end
 
 def startup_load_students
