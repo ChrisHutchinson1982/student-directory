@@ -12,39 +12,36 @@ end
 def interactive_menu
   loop do
     print_menu
-    process(STDIN.gets.chomp)
+    process(my_gets)
   end
+end
+
+def my_gets
+  STDIN.gets.chomp
 end
 
 def process(selection)
   case selection
-    when "1"
-      input_students
-    when "2"
-      show_students
-    when "3"
-      save_students
-    when "4"
-      load_students
-    when "9"
-      exit # this will cause the program to terminate
-    else
-      puts "I don't know what you mean, try again"
-    end
+    when "1" ; input_students
+    when "2" ; show_students
+    when "3" ; save_students
+    when "4" ; load_students
+    when "9" ; exit # this will cause the program to terminate
+    else puts "I don't know what you mean, try again"
+  end
 end
 
 def input_students
-  puts "Please enter the names of the students"
-  puts "To finish, just hit return twice"
+  puts "Please enter the names of the students\nTo finish, just hit return twice"
   # get the first name
-  @name = STDIN.gets.chomp
+  @name = my_gets
   # while the name is not empty, repeat this code
   while !@name.empty? do
     # add the student hash to the array
     load_student(:november)
     puts "Now we have #{@students.count} students"
     # gets another name from the user
-    @name = STDIN.gets.chomp
+    @name = my_gets
   end
 end
 
@@ -59,14 +56,11 @@ def show_students
 end
 
 def print_header
-  puts "The students of Villains Academy"
-  puts "-------------"
+  puts "The students of Villains Academy\n-------------"
 end
 
 def print_students_list
-  @students.each do |student|
-    puts "#{student[:name]} (#{student[:cohort]} cohort)"
-  end
+  @students.each {|student| puts "#{student[:name]} (#{student[:cohort]} cohort)"}
 end
 
 def print_footer
@@ -94,17 +88,16 @@ def load_students(filename = "students.csv")
   file.close
 end
 
-def try_load_students
-  filename = ARGV.first # first argument from the command line
-  filename = "students.csv" if filename.nil? # default to "students.csv" if file isn't given
+def startup_load_students
+  ARGV.first.nil? ? filename = "students.csv" : filename = ARGV.first
   if File.exist?(filename) # if it exists
-    load_students(filename) # if it exists
-      puts "Loaded #{@students.count} from #{filename}"
+    load_students(filename)
+    puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
     puts "Sorry, #{filename} doesn't exist"
     exit # quit the program
   end
 end
 
-try_load_students
+startup_load_students
 interactive_menu
