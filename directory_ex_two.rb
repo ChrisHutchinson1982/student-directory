@@ -4,8 +4,8 @@
 def print_menu
   puts "1. Input the students"
   puts "2. Show the students"
-  puts "3. Save the list to students.csv"
-  puts "4. Load the list from students.csv"
+  puts "3. Save the list to file"
+  puts "4. Load the list from file"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -20,16 +20,20 @@ def my_gets
   STDIN.gets.chomp
 end
 
-def feedback_message
-  puts "-------------\nThis has been completed sucessfully.\nPlease select next action:"
+def feedback_message(action)
+  puts "-------------\n#{action} has been completed sucessfully\n-------------"
+end
+
+def no_file_message(filename)
+  puts "Sorry, #{filename} doesn't exist"
 end
 
 def process(selection)
   case selection
     when "1" ; input_students
     when "2" ; show_students
-    when "3" ; save_students
-    when "4" ; load_students
+    when "3" ; input_file_name("save")
+    when "4" ; input_file_name("load")
     when "9" ; exit # this will cause the program to terminate
     else puts "I don't know what you mean, try again"
   end
@@ -47,7 +51,7 @@ def input_students
     # gets another name from the user
     @name = my_gets
   end
-  feedback_message
+  feedback_message("Input")
 end
 
 def load_student(cohort)
@@ -58,7 +62,6 @@ def show_students
   print_header
   print_students_list
   print_footer
-  feedback_message
 end
 
 def print_header
@@ -73,9 +76,18 @@ def print_footer
   puts "Overall, we have #{@students.count} great students"
 end
 
-def save_students
-  # open the file for writing
-  file = File.open("students.csv", "w")
+def input_file_name(action)
+  puts "Enter file name (e.g. students.csv)"
+  filename = my_gets
+    if File.exist?(filename)
+      action == "save" ? save_students(filename) : load_students(filename)
+    else
+      no_file_message(filename)
+    end
+end
+
+def save_students(filename)
+  file = File.open(filename, "w")
   # iterate over the array of students
   @students.each do |student|
     student_data = [student[:name], student[:cohort]]
@@ -83,17 +95,17 @@ def save_students
     file.puts csv_line
   end
   file.close
-  feedback_message
+  feedback_message("Save")
 end
 
-def load_students(filename = "students.csv")
+def load_students(filename)
   file = File.open(filename, "r")
   file.readlines.each do |line|
   @name, cohort = line.chomp.split(',')
     load_student(cohort)
   end
   file.close
-  feedback_message
+  feedback_message("Load")
 end
 
 def startup_load_students
@@ -102,7 +114,7 @@ def startup_load_students
     load_students(filename)
     puts "Loaded #{@students.count} from #{filename}"
   else # if it doesn't exist
-    puts "Sorry, #{filename} doesn't exist"
+    no_file_message(filename)
     exit # quit the program
   end
 end
