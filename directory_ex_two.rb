@@ -7,6 +7,7 @@ def print_menu
   puts "2. Show the students"
   puts "3. Save the list to file"
   puts "4. Load the list from file"
+  puts "5. Print source code"
   puts "9. Exit" # 9 because we'll be adding more items
 end
 
@@ -17,24 +18,13 @@ def interactive_menu
   end
 end
 
-def my_gets
-  STDIN.gets.chomp
-end
-
-def feedback_message(action)
-  puts "-------------\n#{action} has been completed sucessfully\n-------------"
-end
-
-def no_file_message(filename)
-  puts "Sorry, #{filename} doesn't exist"
-end
-
 def process(selection)
   case selection
     when "1" ; input_students
     when "2" ; show_students
     when "3" ; input_file_name("save")
     when "4" ; input_file_name("load")
+    when "5" ; print_source_code
     when "9" ; exit # this will cause the program to terminate
     else puts "I don't know what you mean, try again"
   end
@@ -54,10 +44,6 @@ def input_students
   end
   feedback_message("Input")
 end
-
-def load_student(cohort)
-  @students << {name: @name, cohort: cohort.to_sym}
-end 
 
 def show_students
   print_header
@@ -105,6 +91,11 @@ def load_students(filename)
   feedback_message("Load")
 end
 
+def print_source_code
+  puts File.read(__FILE__)
+  feedback_message("Print source code")
+end
+
 def startup_load_students
   ARGV.first.nil? ? filename = "students.csv" : filename = ARGV.first
   if File.exist?(filename) # if it exists
@@ -114,6 +105,22 @@ def startup_load_students
     no_file_message(filename)
     exit # quit the program
   end
+end
+
+def my_gets
+  STDIN.gets.chomp
+end
+
+def load_student(cohort)
+  @students << {name: @name, cohort: cohort.to_sym}
+end 
+
+def feedback_message(action)
+  puts "-------------\n#{action} has been completed sucessfully\n-------------"
+end
+
+def no_file_message(filename)
+  puts "Sorry, #{filename} doesn't exist"
 end
 
 startup_load_students
