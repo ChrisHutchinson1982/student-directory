@@ -87,24 +87,24 @@ def input_file_name(action)
 end
 
 def save_students(filename)
-  file = File.open(filename, "w")
-  # iterate over the array of students
-  @students.each do |student|
-    student_data = [student[:name], student[:cohort]]
-    csv_line = student_data.join(",")
-    file.puts csv_line
+  File.open(filename, "w") do |file|
+    # iterate over the array of students
+    @students.each do |student|
+      student_data = [student[:name], student[:cohort]]
+      csv_line = student_data.join(",")
+      file.puts csv_line
+    end
   end
-  file.close
   feedback_message("Save")
 end
 
 def load_students(filename)
-  file = File.open(filename, "r")
-  file.readlines.each do |line|
-  @name, cohort = line.chomp.split(',')
-    load_student(cohort)
+  File.open(filename, "r") do |file|
+    file.readlines.each do |line|
+    @name, cohort = line.chomp.split(',')
+      load_student(cohort)
+    end
   end
-  file.close
   feedback_message("Load")
 end
 
